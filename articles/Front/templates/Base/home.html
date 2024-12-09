@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS and Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>HomePage</title>
+</head>
+<body>
+
+    <div class="container mt-4">
+        {% block content %}
+
+        <!-- Profile or Login/Register Button -->
+        <div class="mb-3">
+            {% if user.is_authenticated %}
+                <form action="{% url 'Base:user-detail' %}" method="get">
+                    <button type="submit" class="btn btn-outline-primary">Profile</button>
+                </form>
+            {% else %}
+                <form action="{% url 'Base:login' %}" method="get">
+                    <button type="submit" class="btn btn-outline-primary">Login/Register</button>
+                </form>
+            {% endif %}
+        </div>
+
+        {% endblock content %}
+
+        <!-- Search Form -->
+        <form action="{% url 'Base:home' %}" method="get" class="form-inline my-2">
+            <input type="text" name="q" class="form-control mr-2" placeholder="Search for Articles" />
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+
+        <!-- Site Title -->
+        <h1 class="mt-4 text-center">STUDYBUD</h1>
+
+        <!-- Articles List -->
+        <div class="list-group mt-3">
+            {% for article in articles %}
+                <a href="{% url 'Base:article_detail' article.pk %}" class="list-group-item list-group-item-action">
+                    {{ article.title }}
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Optional: Bootstrap JS and dependencies for interactive components -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

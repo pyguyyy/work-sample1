@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% if page == 'login' %}
+        Login
+        {% else %}
+        Register
+        {% endif %}
+    </title>
+
+    {% load static %}
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+
+    <div class="container mt-4">
+        {% block content %}
+
+        <!-- Back to Home Button -->
+        <a href="{% url 'Base:home' %}" class="btn btn-primary mb-3">Home</a>
+
+        {% if page == 'login' %}
+            <h3 class="text-center">Login</h3>
+            <div class="layout__body">
+                <h2 class="auth__tagline text-center">Enter your credentials</h2>
+
+                <form class="form" action="" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="username">Email</label>
+                        <input id="username" name="email" type="email" class="form-control" placeholder="e.g. dennis_ivy@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input id="password" name="password" type="password" class="form-control" required>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Login</button>
+                </form>
+
+                <div class="auth__action text-center mt-3">
+                    <p>Don't have an account?</p>
+                    <a href="{% url 'Base:register' %}" class="btn btn-link">Sign Up</a>
+                </div>
+            </div>
+
+        {% else %}
+            <h3 class="text-center">Register</h3>
+            <div class="layout__body">
+                <h2 class="auth__tagline text-center">Find your study partner</h2>
+
+                <form class="form" action="" method="POST">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                    </div>
+                    {% endfor %}
+                    <button class="btn btn-primary" type="submit">Register</button>
+                </form>
+
+                <div class="auth__action text-center mt-3">
+                    <p>Already have an account?</p>
+                    <a href="{% url 'Base:login' %}" class="btn btn-link">Login</a>
+                </div>
+            </div>
+        {% endif %}
+        {% endblock content %}
+    </div>
+
+    <!-- Optional: Bootstrap JS and dependencies for interactive components -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

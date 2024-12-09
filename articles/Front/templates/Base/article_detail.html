@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>{{ article.title }} - Article Details</title>
+</head>
+<body>
+
+    <div class="container mt-4">
+        {% block content %}
+
+        <!-- Back to Home Button -->
+        <a href="{% url 'Base:home' %}" class="btn btn-primary mb-3">Home</a>
+
+        <!-- Article Title and Body -->
+        <div class="card">
+            <div class="card-body">
+                <h1 class="card-title">{{ article.title }}</h1>
+                <hr>
+                <p class="card-text">{{ article.body }}</p>
+                <hr>
+                <p class="text-muted">Published on {{ article.created|date:"F j, Y, g:i a" }} by {{ request.user }}</p>
+            </div>
+        </div>
+
+        {% if request.user == article.owner %}
+        <!-- Update Article Button -->
+        <a href="{% url 'Base:article_update' article.pk %}" class="btn btn-primary mt-3">Update Article</a>
+
+        <!-- Update Article Button -->
+        <a href="{% url 'Base:article_delete' article.pk %}" class="btn btn-danger mt-3">Delete Article</a>
+        {% endif %}
+
+        {% endblock content %}
+    </div>
+
+    <!-- Optional: Bootstrap JS and dependencies for interactive components -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

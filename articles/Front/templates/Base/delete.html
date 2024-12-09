@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load static %}
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Delete Article - {{ article.title }}</title>
+</head>
+<body>
+
+{% block content %}
+    <div class="container mt-4">
+        <h2>Delete Article</h2>
+        <div class="alert alert-danger" role="alert">
+            <p>Are you sure you want to delete the article titled "<strong>{{ article.title }}</strong>"?</p>
+            <p>This action cannot be undone.</p>
+        </div>
+
+        <!-- Delete Confirmation Form -->
+        <form method="POST" action="{% url 'Base:article_delete' article.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete Article</button>
+            <a href="{% url 'Base:article_detail' article.pk %}" class="btn btn-secondary ml-2">Cancel</a>
+        </form>
+    </div>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>User Profile</title>
+</head>
+<body>
+
+    <div class="container mt-4">
+        {% block content %}
+
+        <!-- Back to Home Button -->
+        <a href="{% url 'Base:home' %}" class="btn btn-primary mb-3">Home</a>
+
+        <!-- Create Article btn -->
+        <a href="{% url 'Base:article_create' %}" class="btn btn-primary mb-3">Create Article</a>
+
+        <!-- User Information -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h3 class="card-title">User Profile</h3>
+                <hr>
+                <p><strong>Name:</strong> {{ user.name }}</p>
+                <p><strong>Username:</strong> {{ user.username }}</p>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+            </div>
+        </div>
+
+        <!-- User Articles -->
+        <h3>Your Articles</h3>
+        <div class="list-group">
+            {% for article in articles %}
+                <a href="{% url 'Base:article_detail' article.pk %}" class="list-group-item list-group-item-action">
+                    {{ article.title }}
+                </a>
+            {% empty %}
+                <p class="text-muted">No articles to display.</p>
+            {% endfor %}
+        </div>
+
+        <!-- Update User Profile Button -->
+        <a href="{% url 'Base:update_user' %}" class="btn btn-primary mt-3">Update User</a>
+
+        <!-- Logout Button -->
+        <form action="{% url 'Base:logout' %}" method="POST" class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger mt-3">Logout</button>
+        </form>
+
+        {% endblock content %}
+    </div>
+
+    <!-- Optional: Bootstrap JS and dependencies for interactive components -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
